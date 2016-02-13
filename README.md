@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/ItsAsbreuk/itsa-jsext.svg?branch=master)](https://travis-ci.org/ItsAsbreuk/itsa-jsext)
 
+[![browser support](https://ci.testling.com/ItsAsbreuk/itsa-jsext.png)](https://ci.testling.com/ItsAsbreuk/itsa-jsext)
+
 Extensions to native javascript-objects, all within the "itsa_" namespace
 
 ## How to use:
