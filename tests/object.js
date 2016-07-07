@@ -139,6 +139,12 @@ describe("Testing itsa_newProto", function () {
 
 describe("Testing object instance methods", function () {
 	var obj = {a:1, b:2, c:3},
+		obj2 = {
+			c: {
+				c1: {c1a: 30}
+			},
+			d: 5
+		},
 		deepObj = {
 			a: 1,
 			b: [10, true, "Modules", {b1: true}, ["first item"], new Date(2015, 1, 1, 12, 30, 0, 0)],
@@ -322,6 +328,17 @@ describe("Testing object instance methods", function () {
 			expect(a.itsa_merge(obj)).be.eql(obj);
 			expect(a).be.eql(obj);
 		});
+		it("empty values", function () {
+			var a = {},
+				b = {
+					b1: null,
+					b2: undefined,
+					b3: 0,
+					b4: ""
+				};
+			expect(a.itsa_merge(b)).be.eql(b);
+			expect(a).be.eql(b);
+		});
 		it("existing, not forced",  function () {
 			var a = {b:42};
 			a.itsa_merge(obj);
@@ -331,6 +348,89 @@ describe("Testing object instance methods", function () {
 			var a = {b:42};
 			a.itsa_merge(obj, {force: true});
 			expect(a).be.eql(obj);
+		});
+		it("deep objects, not forced",  function () {
+			var originalObj = {
+				a:1,
+				b: {
+					b1: {b1a: 10, b1b: 20},
+					b2: {b2a: 10, b2b: 20}
+				},
+				c: {
+					c1: {c1a: 10, c1b: 20},
+					c2: {c2a: 10, c2b: 20}
+				},
+				d: 4
+			};
+			var expectedObj = {
+				a:1,
+				b: {
+					b1: {b1a: 10, b1b: 20},
+					b2: {b2a: 10, b2b: 20}
+				},
+				c: {
+					c1: {c1a: 10, c1b: 20},
+					c2: {c2a: 10, c2b: 20}
+				},
+				d: 4
+			};
+			originalObj.itsa_merge(obj2);
+			expect(originalObj).be.eql(expectedObj);
+		});
+		it("deep objects, forced",  function () {
+			var originalObj = {
+				a:1,
+				b: {
+					b1: {b1a: 10, b1b: 20},
+					b2: {b2a: 10, b2b: 20}
+				},
+				c: {
+					c1: {c1a: 10, c1b: 20},
+					c2: {c2a: 10, c2b: 20}
+				},
+				d: 4
+			};
+			var expectedObj = {
+				a:1,
+				b: {
+					b1: {b1a: 10, b1b: 20},
+					b2: {b2a: 10, b2b: 20}
+				},
+				c: {
+					c1: {c1a: 30}
+				},
+				d: 5
+			};
+			originalObj.itsa_merge(obj2, {force: true});
+			expect(originalObj).be.eql(expectedObj);
+		});
+		it("deep objects, deep-forced",  function () {
+			var originalObj = {
+				a:1,
+				b: {
+					b1: {b1a: 10, b1b: 20},
+					b2: {b2a: 10, b2b: 20}
+				},
+				c: {
+					c1: {c1a: 10, c1b: 20},
+					c2: {c2a: 10, c2b: 20}
+				},
+				d: 4
+			};
+			var expectedObj = {
+				a:1,
+				b: {
+					b1: {b1a: 10, b1b: 20},
+					b2: {b2a: 10, b2b: 20}
+				},
+				c: {
+					c1: {c1a: 30, c1b: 20},
+					c2: {c2a: 10, c2b: 20}
+				},
+				d: 5
+			};
+			originalObj.itsa_merge(obj2, {force: "deep"});
+			expect(originalObj).be.eql(expectedObj);
 		});
 		it("undefined source", function () {
 			var a = {b:42};

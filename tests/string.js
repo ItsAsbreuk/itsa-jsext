@@ -43,6 +43,16 @@ describe("Testing String", function () {
         expect(greeting.itsa_substitute({message: "Hello"})).to.be.eql("Hello !");
     });
 
+    it("String.itsa_substitute retain undefined", function () {
+        var greeting = "{message} {who}!";
+        expect(greeting.itsa_substitute({message: "Hello"}, true)).to.be.eql("Hello {who}!");
+    });
+
+    it("String.itsa_substitute no retain undefined", function () {
+        var greeting = "{message} {who}!";
+        expect(greeting.itsa_substitute({message: "Hello"}, false)).to.be.eql("Hello !");
+    });
+
     it("String.itsa_toDate", function () {
         var birthday = "2010-02-10T14:45:30.000Z";
         var checkDay = new Date(Date.UTC(2010,1,10,14,45,30,0));
@@ -75,6 +85,18 @@ describe("Testing String", function () {
 
     it("String.itsa_replaceAll case-insensitive", function () {
         expect("abcABCabcABC".itsa_replaceAll("B", "z", true)).to.be.equal("azcAzCazcAzC");
+    });
+
+    it("String.itsa_sentence to generate a sentence", function () {
+        expect("hi there".itsa_sentence()).to.be.equal("Hi there");
+    });
+
+    it("String.itsa_sentence on an empty string", function () {
+        expect("".itsa_sentence()).to.be.equal("");
+    });
+
+    it("String.itsa_sentence on one character", function () {
+        expect("a".itsa_sentence()).to.be.equal("A");
     });
 
     it("String.itsa_isValidEmail", function () {
